@@ -23,13 +23,12 @@ def f(f_stop):
         quantity_of_x=1)
     print(ret)
     if not f_stop.is_set():
-        # call f() again in 3 seconds
+        # call f() again in 1 second(s)
         threading.Timer(1, f, [f_stop]).start()
 
 
 f_stop = threading.Event()
-# start calling f now and every 3 sec thereafter
-f(f_stop)
+# start calling f now and every 1 sec thereafter
 
 
 def main():

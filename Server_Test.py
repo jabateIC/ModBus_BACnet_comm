@@ -22,16 +22,22 @@ slave1 = server.add_slave(1)
 param = []
 param.append(p)
 
-for p in param:
-    slave1.add_block(p['name'], cst.HOLDING_REGISTERS, p['addr'], 1)
-    server.start()
-try:
-    while True:
-        for p in param:
-            x = p['get']()
-            print(x)
-            slave1.set_values(p['name'], p['addr'], x)
 
-        time.sleep(1)
-finally:
-    server.stop()
+def main():
+    for p in param:
+        slave1.add_block(p['name'], cst.HOLDING_REGISTERS, p['addr'], 1)
+        server.start()
+    try:
+        while True:
+            for p in param:
+                x = p['get']()
+                print(x)
+                slave1.set_values(p['name'], p['addr'], x)
+
+            time.sleep(1)
+    finally:
+        server.stop()
+
+
+if __name__ == "__main__":
+    main()
