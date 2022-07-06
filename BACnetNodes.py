@@ -33,33 +33,10 @@ def add_points(qty_per_type, device):
         _new_objects = analog_input(presentValue=99.9)
         _new_objects = multistate_value(presentValue=1)
 
-    # Supplemental with more details, for demonstration
-    _new_objects = analog_input(
-        name="ZN-T",
-        properties={"units": "degreesCelsius"},
-        description="Zone Temperature",
-        presentValue=21,
-    )
-
-    states = make_state_text(["Normal", "Alarm", "Super Emergency"])
-    _new_objects = multistate_value(
-        description="An Alarm Value",
-        properties={"stateText": states},
-        name="BIG-ALARM",
-        is_commandable=True,
-    )
-
     # All others using default implementation
     for _ in range(qty_per_type):
         _new_objects = analog_output(presentValue=89.9)
         _new_objects = analog_value(presentValue=79.9)
-        _new_objects = binary_input()
-        _new_objects = binary_output()
-        _new_objects = binary_value()
-        _new_objects = multistate_input()
-        _new_objects = multistate_output()
-        _new_objects = date_value()
-        _new_objects = datetime_value()
         _new_objects = character_string(presentValue="test", is_commandable=True)
 
     _new_objects.add_objects_to_application(device)
@@ -71,8 +48,8 @@ def main():
     # Create Simulated BACnet devices
     device_app = BAC0.lite(port=47809, deviceId=101)
     device_app2 = BAC0.lite(port=47810, deviceId=102)
-    add_points(2, device_app)
-    add_points(3, device_app2)
+    add_points(1, device_app)
+    add_points(1, device_app2)
     # locate IP and device ID information
     ip = device_app.localIPAddr.addrTuple[0]
     boid = device_app.Boid
@@ -84,12 +61,10 @@ def main():
     test_device2 = BAC0.device("{}:47810".format(ip2), boid2, bacnet, poll=0)
 
     # small function to populate the simulated bacnet nodes
-    i = 1
     while True:
-        i*.95
         print(test_device.points)
         time.sleep(2)
-
+        test_device['AV'] *= .95
 
 
 if __name__ == "__main__":
