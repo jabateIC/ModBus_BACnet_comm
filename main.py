@@ -14,7 +14,7 @@ Create a Master/Slave example in the terminal that communicates using Modbus & B
 
 
 def main():
-
+    print("Hello World")
 
 
 if __name__ == "__main__":
