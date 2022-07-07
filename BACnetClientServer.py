@@ -23,6 +23,7 @@ from BAC0.core.devices.local.models import (
 from BAC0.core.devices.local.object import ObjectFactory
 from BAC0.core.devices.local.models import make_state_text
 
+
 def add_points(qty_per_type, device):
     # Start from fresh
     ObjectFactory.clear_objects()
@@ -41,6 +42,7 @@ def add_points(qty_per_type, device):
 
     _new_objects.add_objects_to_application(device)
 
+
 def main():
     # Create Client
     bacnet = BAC0.lite()
@@ -48,8 +50,11 @@ def main():
     # Create Simulated BACnet devices
     device_app = BAC0.lite(port=47809, deviceId=101)
     device_app2 = BAC0.lite(port=47810, deviceId=102)
+
+    # small function to populate the simulated bacnet nodes
     add_points(1, device_app)
     add_points(1, device_app2)
+
     # locate IP and device ID information
     ip = device_app.localIPAddr.addrTuple[0]
     boid = device_app.Boid
@@ -60,7 +65,6 @@ def main():
     test_device = BAC0.device("{}:47809".format(ip), boid, bacnet, poll=10)
     test_device2 = BAC0.device("{}:47810".format(ip2), boid2, bacnet, poll=0)
 
-    # small function to populate the simulated bacnet nodes
     while True:
         print(test_device.points)
         time.sleep(2)
